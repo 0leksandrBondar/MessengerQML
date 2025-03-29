@@ -2,6 +2,8 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Controls.Material 2.15
 
+import "ClientPage"
+
 ApplicationWindow
 {
     id: mainWindow
@@ -13,4 +15,9 @@ ApplicationWindow
     title: qsTr("Messenger")
 
     Material.theme: Material.Dark
+
+    ClientPage
+    {
+        anchors.fill: parent
+    }
 }

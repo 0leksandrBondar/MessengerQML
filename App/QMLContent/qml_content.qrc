@@ -1,6 +1,18 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
+        <file>ClientPage/ClientPage.qml</file>
 
+        <file>ClientPage/ChatView/ChatView.qml</file>
+
+        <file>ClientPage/ChatView/InputMessageWidget/TextEditor.qml</file>
+        <file>ClientPage/ChatView/InputMessageWidget/InputMessageWidget.qml</file>
+
+        <file>ClientPage/ChatView/MessagesViewWidget/MessagesViewWidget.qml</file>
+        <file>ClientPage/ChatView/MessagesViewWidget/MessageWidget/MessageWidget.qml</file>
+
+        <file>ClientPage/ChatListView/ChatBlock.qml</file>
+        <file>ClientPage/ChatListView/ChatListView.qml</file>
+        <file>ClientPage/ChatListView/ChatSearchLine.qml</file>
     </qresource>
 </RCC>
