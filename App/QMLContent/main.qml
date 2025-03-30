@@ -3,6 +3,7 @@ import QtQuick.Controls 2.15
 import QtQuick.Controls.Material 2.15
 
 import "ClientPage"
+import "AuthorizationPage"
 
 ApplicationWindow
 {
@@ -16,8 +17,26 @@ ApplicationWindow
 
     Material.theme: Material.Dark
 
-    ClientPage
+    StackView
     {
-        anchors.fill: parent
+        id: pageSwitcher
+        anchors.fill : parent
+        initialItem: authorizationPage
+
+        Component
+        {
+            id: authorizationPage
+            AuthorizationPage
+            {
+                onSignInButtonClicked:  pageSwitcher.push(clientPage)
+            }
+        }
+        Component
+        {
+            id: clientPage
+            ClientPage
+            {
+            }
+        }
     }
 }
