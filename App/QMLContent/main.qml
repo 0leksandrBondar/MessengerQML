@@ -23,6 +23,8 @@ ApplicationWindow
         anchors.fill : parent
         initialItem: authorizationPage
 
+        pushEnter: Transition {}
+
         Component
         {
             id: authorizationPage

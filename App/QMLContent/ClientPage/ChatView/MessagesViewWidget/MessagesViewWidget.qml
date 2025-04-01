@@ -12,7 +12,7 @@ Rectangle
 
     width: parent.width
     height: listView.contentHeight
-    anchors.bottom: inputField.top
+    anchors.bottom: inputMessageWidget.top
     color: "#18191d"
 
     ListModel

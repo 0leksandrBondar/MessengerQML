@@ -130,4 +130,17 @@ Rectangle
             }
         }
     }
+    Component.onCompleted:
+    {
+        chatBlockList.append({"text": "Alice"})
+        chatBlockList.append({"text": "Bob"})
+        chatBlockList.append({"text": "Charlie"})
+        chatBlockList.append({"text": "David"})
+        chatBlockList.append({"text": "Eve"})
+        chatBlockList.append({"text": "Frank"})
+        chatBlockList.append({"text": "Grace"})
+        chatBlockList.append({"text": "Henry"})
+        chatBlockList.append({"text": "Ivy"})
+        chatBlockList.append({"text": "Jack"})
+    }
 }

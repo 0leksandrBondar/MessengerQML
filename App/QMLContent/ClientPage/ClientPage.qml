@@ -13,10 +13,15 @@ Rectangle
         width: parent.width / 3
         height: parent.height
         anchors.left: parent.left
+        onClickOnChatBlock: function(chatName)
+        {
+            chatView.updateRecipientName(chatName)
+        }
     }
 
     ChatView
     {
+        id: chatView
         height: parent.height
         width: parent.width - chatListView.width
         anchors.left: chatListView.right

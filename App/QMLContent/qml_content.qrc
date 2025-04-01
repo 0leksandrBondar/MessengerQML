@@ -2,10 +2,9 @@
     <qresource prefix="/">
         <file>main.qml</file>
 
-
-
         <file>ClientPage/ClientPage.qml</file>
         <file>ClientPage/ChatView/ChatView.qml</file>
+        <file>ClientPage/ChatView/InfoBarWidget/InfoBarWidget.qml</file>
         <file>ClientPage/ChatView/InputMessageWidget/TextEditor.qml</file>
         <file>ClientPage/ChatView/InputMessageWidget/InputMessageWidget.qml</file>
         <file>ClientPage/ChatView/MessagesViewWidget/MessagesViewWidget.qml</file>
