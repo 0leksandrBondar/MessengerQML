@@ -42,14 +42,16 @@ Rectangle
     {
         id: sendButton
 
-        width: 100
+        width: 75
         height: 50
+        anchors.rightMargin: 5
         anchors.right: parent.right
         anchors.bottom: parent.bottom
         text: "send"
         background: Rectangle
         {
             color: sendButton.hovered ? "#434543" :  "#282e33"
+            radius: 20
         }
 
         onClicked: sendMessage()
@@ -58,14 +60,16 @@ Rectangle
     Button
     {
         id: fileButton
-        width: 100
+        width: 75
         height: 50
+        anchors.rightMargin: 1
         anchors.right: sendButton.left
         anchors.bottom: parent.bottom
         text: "File"
         background: Rectangle
         {
             color: fileButton.hovered ? "#434543" :  "#282e33"
+            radius: 20
         }
     }
 }
