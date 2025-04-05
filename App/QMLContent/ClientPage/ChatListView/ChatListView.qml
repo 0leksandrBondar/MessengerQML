@@ -36,10 +36,14 @@ Rectangle
         height: 60
 
         onSearchLineChanged: function(value)
-            {
-                filter = value
-                filterChatList()
-            }
+        {
+            filter = value
+            filterChatList()
+        }
+        onActionButtonClicked: function()
+        {
+            actionWidget.open()
+        }
     }
 
     Rectangle

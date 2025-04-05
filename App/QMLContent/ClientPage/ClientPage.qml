@@ -4,6 +4,7 @@ import QtQuick.Controls.Material 2.15
 
 import "./ChatView"
 import "./ChatListView"
+import "./ActionsWidget"
 
 Rectangle
 {
@@ -25,5 +26,12 @@ Rectangle
         height: parent.height
         width: parent.width - chatListView.width
         anchors.left: chatListView.right
+    }
+
+    ActionsWidget
+    {
+        id: actionWidget
+        width:  parent.width / 4
+        height: parent.height
     }
 }

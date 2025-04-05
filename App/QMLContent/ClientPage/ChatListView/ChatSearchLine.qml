@@ -6,14 +6,32 @@ Rectangle
 {
     color: Material.background
 
+    signal actionButtonClicked();
     signal searchLineChanged(string value)
+
+    Button
+    {
+        id: actionsButton
+        width: 100
+        height: 50
+        text: "actions"
+        anchors.left: parent.left
+        anchors.verticalCenter: parent.verticalCenter
+        background: Rectangle
+        {
+            color: actionsButton.hovered ? "#434543" :  "#282e33"
+            radius: 15
+        }
+        onClicked: actionButtonClicked()
+    }
 
     TextField
     {
         id: inputField
-        width: parent.width / 1.1
+        width: parent.width - actionsButton.width
         height: 40
-        anchors.centerIn: parent
+        anchors.left: actionsButton.right
+        anchors.verticalCenter: parent.verticalCenter
         placeholderText: (!activeFocus && text.length === 0) ? qsTr("Search") : ""
         font.pointSize: 10
         onTextChanged: searchLineChanged(text)
