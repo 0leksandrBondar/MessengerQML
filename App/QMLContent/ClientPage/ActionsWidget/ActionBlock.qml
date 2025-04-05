@@ -2,7 +2,6 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Controls.Material 2.15
 
-
 Rectangle
 {
     id: actionBlock
@@ -10,6 +9,8 @@ Rectangle
     height: 50
     width: parent.width
     color: Material.background
+
+    signal selectedAction(string actionName)
 
     property string name: "null"
 
@@ -34,6 +35,7 @@ Rectangle
             }
             onClicked:
             {
+                selectedAction(name)
             }
         }
     }

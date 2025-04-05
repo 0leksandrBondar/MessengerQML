@@ -33,5 +33,6 @@ Rectangle
         id: actionWidget
         width:  parent.width / 4
         height: parent.height
+        window: parent
     }
 }

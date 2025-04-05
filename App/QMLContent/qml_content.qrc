@@ -6,6 +6,7 @@
         <file>ClientPage/ChatView/ChatView.qml</file>
         <file>ClientPage/ActionsWidget/ActionBlock.qml</file>
         <file>ClientPage/ActionsWidget/ActionsWidget.qml</file>
+        <file>ClientPage/ActionsWidget/Actions/CreateChatAction.qml</file>
         <file>ClientPage/ChatView/InfoBarWidget/InfoBarWidget.qml</file>
         <file>ClientPage/ChatView/InputMessageWidget/TextEditor.qml</file>
         <file>ClientPage/ChatView/InputMessageWidget/InputMessageWidget.qml</file>
