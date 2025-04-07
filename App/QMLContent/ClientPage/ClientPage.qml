@@ -34,5 +34,9 @@ Rectangle
         width:  parent.width / 4
         height: parent.height
         window: parent
+        onFoundNewClient: function(clientName)
+        {
+            chatListView.addNewChat(clientName)
+        }
     }
 }

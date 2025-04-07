@@ -9,6 +9,9 @@ Popup
 
     background: Rectangle
     {
+        radius: 20
+        border.width: 2
+        border.color: "#282e33"
         color: Material.background
     }
     Overlay.modal: Rectangle
@@ -34,4 +37,24 @@ Popup
         }
     }
 
+    Button
+    {
+        id: findButton
+        text: "Find"
+        width: 100
+        height: 50
+        anchors.topMargin: 50
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: searchClientField.bottom
+        background: Rectangle
+        {
+            color: findButton.hovered ? "#434543" :  "#282e33"
+            radius: 20
+        }
+        onClicked:
+        {
+            if(searchClientField.text !== "")
+                foundNewClient(searchClientField.text)
+        }
+    }
 }

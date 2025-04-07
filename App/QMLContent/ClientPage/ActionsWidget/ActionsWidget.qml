@@ -12,6 +12,8 @@ Popup
 
     property Item window: null
 
+    signal foundNewClient(string clientName)
+
     background: Rectangle
     {
         color: Material.background
