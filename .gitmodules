@@ -1,3 +1,6 @@
 [submodule "Dependencies/Boost"]
 	path = Dependencies/Boost
 	url = https://github.com/boostorg/boost.git
+[submodule "Dependencies/SpdLog"]
+	path = Dependencies/SpdLog
+	url = https://github.com/gabime/spdlog.git
