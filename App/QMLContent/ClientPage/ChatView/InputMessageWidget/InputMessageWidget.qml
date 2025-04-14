@@ -22,18 +22,46 @@ Rectangle
         }
     }
 
-    TextEditor
-    {
-        id: textEditor
-        height: parent.height;
-        width: parent.width - (sendButton.width + fileButton.width);
+    Flickable {
+        id: flickable
+        width: parent.width - (sendButton.width + fileButton.width)
+        height: parent.height
         anchors.right: fileButton.left
+        contentWidth: textEditor.width
+        contentHeight: textEditor.height
+        boundsBehavior: Flickable.StopAtBounds
+        clip: true
 
-        Keys.onPressed: function (event)
+        TextEdit
         {
-            if (event.key === Qt.Key_Return && event.modifiers && Qt.ControlModifier)
+            id: textEditor
+            width: flickable.width
+            height: contentHeight
+            clip: true
+            color: "white"
+            font.pointSize: 14
+            wrapMode: TextEdit.Wrap
+            verticalAlignment: Text.AlignVCenter
+            textFormat: TextEdit.PlainText
+
+            onCursorRectangleChanged:
             {
-                sendMessage()
+                if(contentHeight > inputMessageWidget.height && inputMessageWidget.height < mainWindow.height / 3)
+                    inputMessageWidget.height = contentHeight;
+                if(inputMessageWidget.height > mainWindow.height / 3)
+                    inputMessageWidget.height = mainWindow.height / 3;
+            }
+
+            onTextChanged:
+            {
+                if (textEditor.text.trim() === "")
+                    inputMessageWidget.height = 50;
+            }
+
+            Keys.onPressed: function (event)
+            {
+                if (event.key === Qt.Key_Return && event.modifiers && Qt.ControlModifier)
+                    sendMessage()
             }
         }
     }
