@@ -39,10 +39,9 @@ Rectangle
 
         delegate: MessageWidget
         {
-            message: model.message
-            owner: model.owner
-            currentTimeValue: model.currentTimeValue
-            isSenderMe: model.isSenderMe
+            senderName: model.senderName
+            messageText: model.messageText
+            messageTime: Qt.formatDateTime(new Date(), "hh:mm")
         }
 
         ScrollBar
@@ -65,14 +64,29 @@ Rectangle
         }
     }
 
+    Component.onCompleted:
+    {
+        listModel.append(
+            {
+                "senderName": "Alex",
+                "messageText": "This is small message example:)",
+                "currentTimeValue": Qt.formatDateTime(new Date(), "hh:mm"),
+            })
+        listModel.append(
+            {
+                "senderName": "Alex",
+                "messageText": "This is a large example message. I want to see what it looks like:)",
+                "currentTimeValue": Qt.formatDateTime(new Date(), "hh:mm"),
+            })
+    }
+
     function addMessage(text)
     {
         listModel.append(
             {
-                "owner": "ME",
-                "message": text.toString(),
+                "senderName": "Alex",
+                "messageText": text.toString(),
                 "currentTimeValue": Qt.formatDateTime(new Date(), "hh:mm"),
-                "isSenderMe": true
             })
     }
 }

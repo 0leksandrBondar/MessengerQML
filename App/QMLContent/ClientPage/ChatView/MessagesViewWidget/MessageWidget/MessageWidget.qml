@@ -1,110 +1,78 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
+import QtQuick.Controls.Material 2.15
 
 Rectangle
 {
-    id: messageBox
+    id: messageWidget
+    color: Material.background
+    border.color: "gray"
+    radius: 10
 
-    property string message: qsTr("")
-    property string owner: qsTr("")
-    property string currentTimeValue: ""
-    property bool isSenderMe: false
+    property string senderName: ""
+    property string messageText: ""
+    property string messageTime: Qt.formatDateTime(new Date(), "hh:mm")
+    property int fontSize: 14
+    property int horizontalPadding: 12
+    property int verticalPadding: 8
+    property int avatarSize: 36
 
-    readonly property int angleRadius: 10
-    readonly property int maxWidth: parent.width / 2
-    readonly property int ownerNameTextSize: 15
-    readonly property int ownerNameLeftPadding: 10
-    readonly property int ownerNameTopPadding: 0
-    readonly property int messageTextTopPadding: 0
-    readonly property int messageTextLeftPadding: 10
-    readonly property int messageBoxHeight: ownerName.height + messageText.height + 10
+     width: contentColumn.width + 2 * horizontalPadding + avatarSize + horizontalPadding
+     height: Math.max(contentColumn.height + 2 * verticalPadding, avatarSize + 2 * verticalPadding)
 
-    width: calculateWidth()
-
-    function calculateWidth()
+    Row
     {
-        if (messageText.width < ownerName.width)
-            return ownerName.width + 20;
-        else if (messageText.width <= maxWidth)
-            return messageText.width + timeIndicator.width;
-        else
-            return maxWidth;
-    }
+        anchors.fill: parent
+        spacing: messageWidget.horizontalPadding
+        padding: 10
 
-    height: messageBoxHeight
-    color: isSenderMe ? "#2b2f37" : "#33393f"
-
-    radius: angleRadius
-
-    Canvas
-    {
-        id: triangle
-        property int triangleWidth: 40
-        property int triangleHeight: 5
-        width: triangleWidth
-        height: messageBox.height
-        anchors.left: messageBox.left
-
-        onPaint:
+        Rectangle
         {
-            drawTriangle()
+            width: messageWidget.avatarSize
+            height: messageWidget.avatarSize
+            radius: width / 2
+            color: "lightblue"
+
+            Text
+            {
+                anchors.centerIn: parent
+                text: messageWidget.senderName.substring(0, 1).toUpperCase()
+                color: "white"
+                font.bold: true
+                font.pointSize: messageWidget.fontSize + 4
+            }
         }
-        function drawTriangle()
+
+        Column
         {
-            var ctx = getContext("2d");
-            ctx.beginPath();
-            ctx.moveTo(0, height);
-            ctx.lineTo(triangleWidth, height - triangleHeight);
-            ctx.lineTo(0, height - triangleWidth);
-            ctx.closePath();
-            ctx.fillStyle = messageBox.color;
-            ctx.fill();
+            id: contentColumn
+            anchors.verticalCenter: parent.verticalCenter
+            spacing: 2
+
+            Text
+            {
+                text: messageWidget.senderName
+                color: "green"
+                font.bold: true
+                font.pointSize: messageWidget.fontSize
+            }
+
+            Text
+            {
+                text: messageWidget.messageText
+                color: "white"
+                font.pointSize: messageWidget.fontSize
+                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                width: 250
+            }
+
+            Text
+            {
+                anchors.right: parent.right
+                text: messageWidget.messageTime
+                color: "grey"
+                font.pointSize: messageWidget.fontSize - 2
+            }
         }
-    }
-
-    TextMetrics
-    {
-        id: textMetrics
-        text: messageBox.message
-        font: messageText.font
-    }
-
-    Text
-    {
-        id: ownerName
-        font.bold: true
-        color: isSenderMe ? "#457571" : "#4575a1"
-        anchors.top: parent.top
-        topPadding: ownerNameTopPadding
-        leftPadding: ownerNameLeftPadding
-        text: messageBox.owner
-        wrapMode: Text.WordWrap
-        font.pixelSize: ownerNameTextSize
-    }
-
-    Text
-    {
-        id: messageText
-        text: messageBox.message
-        anchors.top: ownerName.bottom
-        topPadding: messageTextTopPadding
-
-        leftPadding: messageTextLeftPadding
-        color: "white"
-        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        width: textMetrics.width >= maxWidth ? maxWidth : textMetrics.width + 50
-        font.pixelSize: 15
-    }
-
-    Text
-    {
-        id: timeIndicator
-        text: currentTimeValue
-        anchors.bottom: parent.bottom
-        anchors.right: parent.right
-        bottomPadding: 5
-        rightPadding: 5
-        color:  "#505b65"
-        font.pixelSize: 10
     }
 }

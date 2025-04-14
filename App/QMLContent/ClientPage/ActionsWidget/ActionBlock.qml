@@ -20,23 +20,22 @@ Rectangle
         color: "#00e8d1"
         anchors.centerIn: parent
         font.pointSize: 14
-
-        MouseArea
+    }
+    MouseArea
+    {
+        anchors.fill: parent
+        hoverEnabled: true
+        onEntered:
         {
-            anchors.fill: parent
-            hoverEnabled: true
-            onEntered:
-            {
-                actionBlock.color = "#434543"
-            }
-            onExited:
-            {
-                actionBlock.color = Material.background
-            }
-            onClicked:
-            {
-                selectedAction(name)
-            }
+            actionBlock.color = "#434543"
+        }
+        onExited:
+        {
+            actionBlock.color = Material.background
+        }
+        onClicked:
+        {
+            selectedAction(name)
         }
     }
 }
