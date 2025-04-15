@@ -41,7 +41,7 @@ Rectangle
 
         onSendButtonClicked: function(text)
         {
-            messagesViewWidget.addMessage(text)
+            messagesViewWidget.addMessage("TestName",text)
         }
     }
 }

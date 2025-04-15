@@ -22,7 +22,8 @@ Rectangle
         }
     }
 
-    Flickable {
+    Flickable
+    {
         id: flickable
         width: parent.width - (sendButton.width + fileButton.width)
         height: parent.height

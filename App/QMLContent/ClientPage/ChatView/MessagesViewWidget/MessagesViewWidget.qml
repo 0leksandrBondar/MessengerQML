@@ -41,6 +41,7 @@ Rectangle
         {
             senderName: model.senderName
             messageText: model.messageText
+            imagePath: model.imagePath || ""
             messageTime: Qt.formatDateTime(new Date(), "hh:mm")
         }
 
@@ -78,14 +79,21 @@ Rectangle
                 "messageText": "This is a large example message. I want to see what it looks like:)",
                 "currentTimeValue": Qt.formatDateTime(new Date(), "hh:mm"),
             })
-    }
-
-    function addMessage(text)
-    {
         listModel.append(
             {
                 "senderName": "Alex",
-                "messageText": text.toString(),
+                //"imagePath":  "path to image",
+                "messageText": "This is a image example message. I want to see what it looks like:)",
+                "currentTimeValue": Qt.formatDateTime(new Date(), "hh:mm"),
+            })
+    }
+
+    function addMessage(sender, messageText)
+    {
+        listModel.append(
+            {
+                "senderName": sender,
+                "messageText": messageText,
                 "currentTimeValue": Qt.formatDateTime(new Date(), "hh:mm"),
             })
     }

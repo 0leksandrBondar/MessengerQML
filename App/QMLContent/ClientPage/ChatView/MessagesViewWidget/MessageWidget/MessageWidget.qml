@@ -10,68 +10,84 @@ Rectangle
     radius: 10
 
     property string senderName: ""
+    property string imagePath: ""
     property string messageText: ""
     property string messageTime: Qt.formatDateTime(new Date(), "hh:mm")
     property int fontSize: 14
     property int horizontalPadding: 12
     property int verticalPadding: 8
     property int avatarSize: 36
+    property int maxImageWidth: 300
+    property int maxImageHeight: 300
 
-     width: contentColumn.width + 2 * horizontalPadding + avatarSize + horizontalPadding
-     height: Math.max(contentColumn.height + 2 * verticalPadding, avatarSize + 2 * verticalPadding)
+    width:  contentLayout.width + horizontalPadding
+    height: Math.max(messageLayout.height + 2 * verticalPadding, avatarSize + 2 * verticalPadding)
 
-    Row
+    Column
     {
-        anchors.fill: parent
-        spacing: messageWidget.horizontalPadding
-        padding: 10
+        id: messageLayout
+        width: parent.width
+        padding: 5
 
-        Rectangle
+        Row
         {
-            width: messageWidget.avatarSize
-            height: messageWidget.avatarSize
-            radius: width / 2
-            color: "lightblue"
+            // HEADER LAYOUT
+            id: headerRow
+            height: 50
+            width: parent.width
+            spacing: 10
 
-            Text
+            Rectangle
             {
-                anchors.centerIn: parent
-                text: messageWidget.senderName.substring(0, 1).toUpperCase()
-                color: "white"
-                font.bold: true
-                font.pointSize: messageWidget.fontSize + 4
+                // AVATAR
+                width: avatarSize
+                height: avatarSize
+                radius: width / 2
+                color: "#272927"
+                anchors.verticalCenter: parent.verticalCenter
+                Text
+                {
+                    anchors.centerIn: parent
+                    text: senderName.substring(0, 1).toUpperCase()
+                    color: "#00ff95"
+                    font.bold: true
+                    font.pointSize: fontSize + 4
+                }
             }
-        }
-
-        Column
-        {
-            id: contentColumn
-            anchors.verticalCenter: parent.verticalCenter
-            spacing: 2
-
             Text
             {
-                text: messageWidget.senderName
+                // Sender label
+                text: senderName
                 color: "green"
                 font.bold: true
-                font.pointSize: messageWidget.fontSize
+                font.pointSize: fontSize
+                anchors.verticalCenter: parent.verticalCenter
             }
-
+        }
+        Column
+        {
+            id: contentLayout
+            padding: 5
+            Image
+            {
+                source: imagePath
+                width: Math.min(implicitWidth, messageWidget.maxImageWidth)
+                height: Math.min(implicitHeight, messageWidget.maxImageHeight)
+            }
             Text
             {
-                text: messageWidget.messageText
+                text: messageText
                 color: "white"
-                font.pointSize: messageWidget.fontSize
+                font.pointSize: fontSize
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 width: 250
             }
-
             Text
             {
                 anchors.right: parent.right
-                text: messageWidget.messageTime
+                text: messageTime
                 color: "grey"
-                font.pointSize: messageWidget.fontSize - 2
+                font.pointSize: fontSize - 2
             }
         }
     }
