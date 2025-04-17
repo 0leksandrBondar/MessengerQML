@@ -2,6 +2,7 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Controls.Basic
 import QtQuick.Controls.Material 2.15
+import QtQuick.Dialogs
 
 Rectangle
 {
@@ -21,6 +22,27 @@ Rectangle
             textEditor.clear();
         }
     }
+
+    FileDialog
+    {
+        id: fileDialog
+        title: "Select a file"
+        nameFilters:
+        [
+            "Image files (*.png *.jpg *.jpeg *.bmp *.gif)",
+            "Text files (*.txt *.md *.pdf *.log)",
+            "All files (*)"
+        ]
+        onAccepted:
+        {
+            console.log("File selected: " + fileDialog.currentFile)
+        }
+        onRejected:
+        {
+            console.log("File selection canceled")
+        }
+    }
+
 
     Flickable
     {
@@ -100,5 +122,6 @@ Rectangle
             color: fileButton.hovered ? "#434543" :  "#282e33"
             radius: 20
         }
+        onClicked: fileDialog.open()
     }
 }
