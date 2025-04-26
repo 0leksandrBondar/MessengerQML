@@ -11,4 +11,9 @@ set(QML_SOURCES ${QML_CONTENT_PATH})
 add_executable(${PROJECT_NAME} ${SOURCES} ${QML_SOURCES})
 
 target_link_libraries(${PROJECT_NAME}
-        Qt)
+        Qt
+        Common
+        Boost::asio
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+)
