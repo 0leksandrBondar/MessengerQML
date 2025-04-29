@@ -24,6 +24,7 @@
 
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QQmlContext>
 
 int main(int argc, char* argv[])
 {
@@ -31,13 +32,17 @@ int main(int argc, char* argv[])
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/main.qml"));
 
-    // TEST
     Client client;
-    client.connect();
-    client.setName("oleg");
-    client.registerClient();
-    client.run();
-    client.sendText("server","Hello World!");
+
+    engine.rootContext()->setContextProperty("client", &client);
+
+    // TEST
+    // Client client;
+    // client.connect();
+    // client.setName("oleg");
+    // client.registerClient();
+    // client.run();
+    // client.sendText("server","Hello World!");
     // =========================================================
     engine.load(url);
     return QGuiApplication::exec();

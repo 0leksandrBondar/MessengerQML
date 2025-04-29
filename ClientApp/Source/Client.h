@@ -22,6 +22,8 @@
 
 #pragma once
 
+#include "spdlog/spdlog.h"
+
 #include <boost/asio.hpp>
 #include <nlohmann/json.hpp>
 
@@ -33,15 +35,13 @@ class Client final : public QObject
 public:
     Client(QObject* parent = nullptr);
 
-    void connect();
-
     void run() { _ioContext.run(); }
 
-    void registerClient();
+public slots:
+    void connect();
     void startReceiving();
-
-    void setName(const std::string& name) { _senderName = name; }
-
+    void registerClient();
+    void setName(const QString& name) { _senderName = name.toStdString(); }
     void sendText(const std::string& receiver, const std::string& message);
     void sendFile(const std::string& receiver, const std::string& filename);
 

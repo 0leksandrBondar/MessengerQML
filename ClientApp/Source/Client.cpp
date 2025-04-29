@@ -29,8 +29,18 @@ Client::Client(QObject* parent) : QObject(parent), _socket{ _ioContext } {}
 
 void Client::connect()
 {
-    boost::asio::ip::tcp::resolver resolver(_ioContext);
-    boost::asio::connect(_socket, resolver.resolve(_host, _port));
+    try
+    {
+        spdlog::info("Connecting to server...");
+        boost::asio::ip::tcp::resolver resolver(_ioContext);
+        auto endpoints = resolver.resolve(_host, _port);
+        boost::asio::connect(_socket, endpoints);
+        spdlog::info("Successfully connected to server.");
+    }
+    catch (const boost::system::system_error& e)
+    {
+        spdlog::error("Failed to connect to server: {}", e.what());
+    }
 }
 
 void Client::registerClient()
@@ -41,6 +51,7 @@ void Client::registerClient()
 
 void Client::startReceiving()
 {
+    spdlog::info("Start receiving");
     // TODO: implement this
 }
 

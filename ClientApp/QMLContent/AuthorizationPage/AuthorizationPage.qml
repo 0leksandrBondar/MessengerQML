@@ -71,7 +71,14 @@ Rectangle
         anchors.topMargin: 30
         anchors.top: passwordInputField.bottom
         anchors.horizontalCenter: parent.horizontalCenter
-        onClicked: signInButtonClicked()
+        onClicked:
+        {
+            if(userNameInputField.text !== "")
+            {
+                client.setName(userNameInputField.text)
+                signInButtonClicked()
+            }
+        }
         contentItem: Text
         {
             text: qsTr("SignIn")

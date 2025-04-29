@@ -17,6 +17,11 @@ ApplicationWindow
 
     Material.theme: Material.Dark
 
+    Component.onCompleted:
+    {
+        //client.connect() // Use it if you want to connect to server
+    }
+
     StackView
     {
         id: pageSwitcher
@@ -30,7 +35,11 @@ ApplicationWindow
             id: authorizationPage
             AuthorizationPage
             {
-                onSignInButtonClicked:  pageSwitcher.push(clientPage)
+                onSignInButtonClicked:
+                {
+                    pageSwitcher.push(clientPage)
+                    //client.registerClient()
+                }
             }
         }
         Component
