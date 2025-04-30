@@ -42,11 +42,18 @@ public slots:
     void startReceiving();
     void registerClient();
     void setName(const QString& name) { _senderName = name.toStdString(); }
-    void sendText(const std::string& receiver, const std::string& message);
-    void sendFile(const std::string& receiver, const std::string& filename);
+    void sendText(const QString& receiver, const QString& message);
+    void sendFile(const QString& receiver, const QString& filename);
+
+    [[nodiscard]] QString getClientName() const { return _senderName.data(); }
 
 private:
     void sendJson(const nlohmann::json& j);
+
+    void readMessageData();
+    void handleIncomingJson(const std::string& jsonText);
+    void handleTextMessage(const nlohmann::json& msg, const std::string& sender);
+    void handleFileMessage(const nlohmann::json& msg, const std::string& sender);
 
 private:
     const std::string _port{ "8080" };

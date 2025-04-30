@@ -33,17 +33,8 @@ int main(int argc, char* argv[])
     const QUrl url(QStringLiteral("qrc:/main.qml"));
 
     Client client;
-
     engine.rootContext()->setContextProperty("client", &client);
 
-    // TEST
-    // Client client;
-    // client.connect();
-    // client.setName("oleg");
-    // client.registerClient();
-    // client.run();
-    // client.sendText("server","Hello World!");
-    // =========================================================
     engine.load(url);
     return QGuiApplication::exec();
 }

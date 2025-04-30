@@ -10,6 +10,8 @@ Rectangle
     border.color: "#282e33"
     color: Material.background
 
+    property alias recipientName: clientName.text
+
     function setRecieverName(name)
     {
         clientName.text = name

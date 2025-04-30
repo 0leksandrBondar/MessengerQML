@@ -41,7 +41,8 @@ Rectangle
 
         onSendButtonClicked: function(text)
         {
-            messagesViewWidget.addMessage("TestName",text)
+            messagesViewWidget.addMessage(client.getClientName(), text)
+            client.sendText(infoBarWidget.recipientName, text)
         }
     }
 }
