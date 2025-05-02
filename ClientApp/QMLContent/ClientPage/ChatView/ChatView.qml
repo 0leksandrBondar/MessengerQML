@@ -45,4 +45,14 @@ Rectangle
             client.sendText(infoBarWidget.recipientName, text)
         }
     }
+
+    Connections
+    {
+        target: client
+        function onReceivedTextMessage(sender, msg)
+        {
+            messagesViewWidget.addMessage(sender, msg)
+        }
+    }
+
 }

@@ -37,6 +37,9 @@ public:
 
     void run() { _ioContext.run(); }
 
+signals:
+    void receivedTextMessage(const QString& sender, const QString& msg);
+
 public slots:
     void connect();
     void startReceiving();

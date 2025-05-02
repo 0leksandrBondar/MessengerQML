@@ -165,6 +165,8 @@ void Client::handleTextMessage(const nlohmann::json& msg, const std::string& sen
     std::vector<unsigned char> decoded = Serializer::deserializeBase64(encoded);
     std::string message(decoded.begin(), decoded.end());
     spdlog::info("[from {}]: {}", sender, message);
+
+    emit receivedTextMessage(sender.data(), message.data());
 }
 
 void Client::handleFileMessage(const nlohmann::json& msg, const std::string& sender) {}
