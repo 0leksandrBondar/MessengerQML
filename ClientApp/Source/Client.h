@@ -22,8 +22,6 @@
 
 #pragma once
 
-#include "spdlog/spdlog.h"
-
 #include <boost/asio.hpp>
 #include <nlohmann/json.hpp>
 
@@ -34,6 +32,7 @@ class Client final : public QObject
     Q_OBJECT
 public:
     Client(QObject* parent = nullptr);
+    ~Client() { disconnect(); }
 
     void run() { _ioContext.run(); }
 
@@ -51,6 +50,7 @@ public slots:
     [[nodiscard]] QString getClientName() const { return _senderName.data(); }
 
 private:
+    void disconnect();
     void sendJson(const nlohmann::json& j);
 
     void readMessageData();
@@ -62,9 +62,15 @@ private:
     const std::string _port{ "8080" };
     const std::string _host{ "127.0.0.1" };
 
+    bool _isConnected{ false };
+    std::string _senderName{ "unnamed" };
+
     uint32_t _incomingLength{};
     boost::asio::io_context _ioContext;
     boost::asio::ip::tcp::socket _socket;
     std::vector<unsigned char> _incomingData;
-    std::string _senderName{ "unnamed" };
+
+    std::optional<boost::asio::executor_work_guard<boost::asio::io_context::executor_type>>
+        _workGuard;
+    std::optional<std::thread> _ioThread;
 };

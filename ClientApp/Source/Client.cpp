@@ -25,7 +25,10 @@
 
 #include <spdlog/spdlog.h>
 
-Client::Client(QObject* parent) : QObject(parent), _socket{ _ioContext } {}
+Client::Client(QObject* parent) : QObject(parent), _socket{ _ioContext }
+{
+    _workGuard.emplace(boost::asio::make_work_guard(_ioContext));
+}
 
 void Client::connect()
 {
@@ -35,15 +38,54 @@ void Client::connect()
         boost::asio::ip::tcp::resolver resolver(_ioContext);
         auto endpoints = resolver.resolve(_host, _port);
         boost::asio::connect(_socket, endpoints);
-        spdlog::info("Successfully connected to server.");
+        _isConnected = true;
 
+        spdlog::info("Successfully connected to server.");
         startReceiving();
-        std::thread([&]() { run(); }).detach();
+
+        if (!_ioThread.has_value())
+        {
+            _ioThread.emplace(
+                [this]()
+                {
+                    try
+                    {
+                        _ioContext.run();
+                    }
+                    catch (const std::exception& e)
+                    {
+                        spdlog::error("io_context exception: {}", e.what());
+                    }
+                });
+        }
     }
     catch (const boost::system::system_error& e)
     {
         spdlog::error("Failed to connect to server: {}", e.what());
     }
+}
+
+void Client::disconnect()
+{
+    _isConnected = false;
+
+    boost::system::error_code ec;
+    _socket.shutdown(boost::asio::ip::tcp::socket::shutdown_both, ec);
+    _socket.close(ec);
+
+    if (_workGuard.has_value())
+    {
+        _workGuard->reset();
+        _workGuard.reset();
+    }
+
+    if (_ioThread.has_value() && _ioThread->joinable())
+    {
+        _ioThread->join();
+        _ioThread.reset();
+    }
+
+    spdlog::info("Disconnected from server.");
 }
 
 void Client::registerClient()
@@ -56,9 +98,18 @@ void Client::registerClient()
 
 void Client::startReceiving()
 {
+    if (!_isConnected)
+        return;
+
     boost::asio::async_read(_socket, boost::asio::buffer(&_incomingLength, sizeof(_incomingLength)),
                             [this](boost::system::error_code ec, std::size_t)
                             {
+                                if (!_isConnected || ec == boost::asio::error::operation_aborted)
+                                {
+                                    spdlog::warn("Receive operation aborted.");
+                                    return;
+                                }
+
                                 if (ec)
                                 {
                                     spdlog::error("Read length error: {}", ec.message());
@@ -70,7 +121,7 @@ void Client::startReceiving()
                                     spdlog::warn("Incoming message too large: {} bytes",
                                                  _incomingLength);
                                     _incomingLength = 0;
-                                    startReceiving(); // restart
+                                    startReceiving();
                                     return;
                                 }
 
@@ -110,9 +161,18 @@ void Client::sendJson(const nlohmann::json& j)
 
 void Client::readMessageData()
 {
+    if (!_isConnected)
+        return;
+
     boost::asio::async_read(_socket, boost::asio::buffer(_incomingData),
                             [this](boost::system::error_code ec, std::size_t)
                             {
+                                if (!_isConnected || ec == boost::asio::error::operation_aborted)
+                                {
+                                    spdlog::warn("Read aborted.");
+                                    return;
+                                }
+
                                 if (ec)
                                 {
                                     spdlog::error("Read message error: {}", ec.message());
@@ -124,8 +184,7 @@ void Client::readMessageData()
                                 spdlog::info("RAW JSON: {}", json_text);
 
                                 handleIncomingJson(json_text);
-
-                                startReceiving(); // continue listening
+                                startReceiving();
                             });
 }
 
