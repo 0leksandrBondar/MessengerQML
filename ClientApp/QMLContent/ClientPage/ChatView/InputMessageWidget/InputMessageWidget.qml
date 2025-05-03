@@ -11,6 +11,7 @@ Rectangle
     radius: 20
     border.color: "#282e33"
     border.width: 2
+    anchors.margins: 5
 
     signal sendButtonClicked(string text)
     function sendMessage()
@@ -47,19 +48,21 @@ Rectangle
     Flickable
     {
         id: flickable
-        width: parent.width - (sendButton.width + fileButton.width)
+        width: parent.width - (sendButton.width + fileButton.width) - 20
         height: parent.height
         anchors.right: fileButton.left
         contentWidth: textEditor.width
         contentHeight: textEditor.height
         boundsBehavior: Flickable.StopAtBounds
+        anchors.verticalCenter: parent.verticalCenter
         clip: true
 
         TextEdit
         {
             id: textEditor
             width: flickable.width
-            height: contentHeight
+            height: contentHeight < 50 ? 50 : contentHeight
+            anchors.leftMargin: 10
             clip: true
             color: "white"
             font.pointSize: 14
