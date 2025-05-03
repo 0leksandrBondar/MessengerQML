@@ -9,6 +9,7 @@
         <file>ClientPage/ActionsWidget/Actions/CreateChatAction.qml</file>
         <file>ClientPage/ChatView/InfoBarWidget/InfoBarWidget.qml</file>
         <file>ClientPage/ChatView/InputMessageWidget/InputMessageWidget.qml</file>
+        <file>ClientPage/ChatView/InputMessageWidget/AttachmentPreviewDialog.qml</file>
         <file>ClientPage/ChatView/MessagesViewWidget/MessagesViewWidget.qml</file>
         <file>ClientPage/ChatView/MessagesViewWidget/MessageWidget/MessageWidget.qml</file>
         <file>ClientPage/ChatListView/ChatBlock.qml</file>
