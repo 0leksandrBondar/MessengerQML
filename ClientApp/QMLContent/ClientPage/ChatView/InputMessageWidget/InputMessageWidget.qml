@@ -27,11 +27,6 @@ Rectangle
     AttachmentPreviewDialog
     {
         id: attachmentPreviewDialog
-
-        x: Math.round((parent.width - width) / 2)
-        y: Math.round((parent.height - height) / 2)
-        width: 400
-        height: 400
     }
 
     FileDialog
@@ -47,6 +42,7 @@ Rectangle
         onAccepted:
         {
             attachmentPreviewDialog.open()
+            attachmentPreviewDialog.filename = fileDialog.currentFile
             console.log("File selected: " + fileDialog.currentFile)
         }
         onRejected:
