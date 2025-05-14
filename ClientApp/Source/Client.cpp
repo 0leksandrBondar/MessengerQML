@@ -147,7 +147,26 @@ void Client::sendText(const QString& receiver, const QString& message)
 
 void Client::sendFile(const QString& receiver, const QString& filename)
 {
-    // TODO: implement this
+    spdlog::info("Sending file: {}", filename.toStdString());
+    const std::string stdFilename = filename.toStdString();
+    std::ifstream file(stdFilename, std::ios::binary);
+    if (!file)
+    {
+        spdlog::error("File not found: {}", filename.toStdString());
+        return;
+    }
+
+    std::vector<unsigned char> file_data((std::istreambuf_iterator<char>(file)),
+                                         std::istreambuf_iterator<char>());
+    std::string encoded = Serializer::serializeBase64(file_data);
+
+    nlohmann::json msg = { { "sender", _senderName },
+                           { "receiver", receiver.toStdString() },
+                           { "type", "FILE" },
+                           { "filename", filename.toStdString() },
+                           { "data", encoded } };
+
+    sendJson(msg);
 }
 
 void Client::sendJson(const nlohmann::json& j)
@@ -225,7 +244,9 @@ void Client::handleTextMessage(const nlohmann::json& msg, const std::string& sen
     std::string message(decoded.begin(), decoded.end());
     spdlog::info("[from {}]: {}", sender, message);
 
-    emit receivedTextMessage(sender.data(), message.data());
+    const QString qSender = QString::fromStdString(sender);
+    const QString qMessage = QString::fromStdString(message);
+    emit receivedTextMessage(qSender, qMessage);
 }
 
 void Client::handleFileMessage(const nlohmann::json& msg, const std::string& sender) {}

@@ -122,6 +122,16 @@ void Session::handleMessage(const std::string& json_text)
     if (type == "FILE")
     {
         processFile(sender, receiver, filename, decoded);
+        auto targetSession = _server.getClientSession(receiver);
+        if (targetSession)
+        {
+            targetSession->sendRaw(json_text);
+            spdlog::info("File forwarded from '{}' to '{}'", sender, receiver);
+        }
+        else
+        {
+            spdlog::warn("User '{}' not found for file from '{}'", receiver, sender);
+        }
     }
     else if (type == "TEXT")
     {
