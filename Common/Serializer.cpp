@@ -80,37 +80,34 @@ std::vector<unsigned char> deserializeBase64(std::string const& encoded_string)
 std::string serializeBase64(const std::vector<unsigned char>& bytes_to_serialize)
 {
     std::string ret;
-    int i = 0;
     unsigned char char_array_3[3];
     unsigned char char_array_4[4];
 
     auto it = bytes_to_serialize.begin();
     while (it != bytes_to_serialize.end())
     {
-        int j = 0;
-        while (j < 3 && it != bytes_to_serialize.end())
+        int bytesRead = 0;
+        while (bytesRead < 3 && it != bytes_to_serialize.end())
         {
-            char_array_3[j++] = *(it++);
+            char_array_3[bytesRead++] = *(it++);
         }
-        while (j < 3)
-        {
-            char_array_3[j++] = '\0';
-        }
+
+        for (int j = bytesRead; j < 3; j++)
+            char_array_3[j] = '\0';
 
         char_array_4[0] = (char_array_3[0] & 0xfc) >> 2;
         char_array_4[1] = ((char_array_3[0] & 0x03) << 4) + ((char_array_3[1] & 0xf0) >> 4);
         char_array_4[2] = ((char_array_3[1] & 0x0f) << 2) + ((char_array_3[2] & 0xc0) >> 6);
         char_array_4[3] = char_array_3[2] & 0x3f;
 
-        for (int k = 0; k < 4; k++)
-        {
-            if (k < j + 1)
-                ret += base64_chars[char_array_4[k]];
-            else
-                ret += '=';
-        }
+        for (int k = 0; k < bytesRead + 1; k++)
+            ret += base64_chars[char_array_4[k]];
+
+        while ((int)ret.size() % 4 != 0)
+            ret += '=';
     }
 
     return ret;
 }
+
 } // namespace Serializer

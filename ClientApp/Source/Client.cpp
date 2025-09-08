@@ -24,6 +24,7 @@
 #include "Common/Serializer.h"
 
 #include <spdlog/spdlog.h>
+#include <fstream>
 
 Client::Client(QObject* parent) : QObject(parent), _socket{ _ioContext }
 {

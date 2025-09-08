@@ -8,7 +8,7 @@ Rectangle
 
     signal clickOnChatBlock(string chatName);
 
-    property var filter : ""
+    property string filter : ""
 
     function addNewChat(chatName)
     {

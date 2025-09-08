@@ -19,7 +19,7 @@ ApplicationWindow
 
     Component.onCompleted:
     {
-        client.connect() // Use it if you want to connect to server
+       // client.connect() // Use it if you want to connect to server
     }
 
     StackView
@@ -38,7 +38,7 @@ ApplicationWindow
                 onSignInButtonClicked:
                 {
                     pageSwitcher.push(clientPage)
-                    client.registerClient()
+                   // client.registerClient()
                 }
             }
         }

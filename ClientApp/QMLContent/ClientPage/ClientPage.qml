@@ -8,6 +8,17 @@ import "./ActionsWidget"
 
 Rectangle
 {
+    property bool isChatSelected: false
+    color:  Material.background
+    focus: true
+
+    Keys.onReleased: (event) => {
+        if (event.key === Qt.Key_Escape) {
+            isChatSelected = false
+            event.accepted = true
+        }
+    }
+
     ChatListView
     {
         id: chatListView
@@ -16,12 +27,14 @@ Rectangle
         anchors.left: parent.left
         onClickOnChatBlock: function(chatName)
         {
+            isChatSelected = true
             chatView.updateRecipientName(chatName)
         }
     }
 
     ChatView
     {
+        visible: isChatSelected
         id: chatView
         height: parent.height
         width: parent.width - chatListView.width
